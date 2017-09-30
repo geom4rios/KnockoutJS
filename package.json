@@ -1,0 +1,16 @@
+{
+  "name": "knockoutjs",
+  "version": "1.0.0",
+  "description": "simple knockout js ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marios Georgiou",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.0",
+    "jquery": "^3.2.1",
+    "knockout": "^3.4.2"
+  }
+}

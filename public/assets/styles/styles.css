@@ -1,0 +1,65 @@
+* {
+    box-sizing: border-box;
+}
+
+
+.single-page {
+    height:100vh;
+}
+
+.grid-container {
+    width: 50%;
+    margin: auto;
+}
+
+.grid-table {
+    margin: auto;
+    text-align:center;
+}
+
+tbody tr:nth-child(odd){background-color: #f2f2f2}
+
+.page-header h2 {
+    display: block;
+    text-align:center;
+}
+
+.user-row {
+    text-align:center;
+    margin-top: 2rem;
+}
+
+
+/****************************************************/
+
+table, th, td {
+    border: 1px solid black;
+}
+
+thead {
+    border-radius: 5px;
+    background-color: lightblue;
+}
+
+table {
+    border-collapse: collapse;
+
+}
+
+th {
+    padding: 1rem;
+}
+
+td {
+    padding: 0.5rem;
+}
+
+.container {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.row {
+    margin-left: -15px;
+    margin-right: -15px;
+}
