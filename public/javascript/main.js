@@ -103,7 +103,6 @@ function DataGridViewModel() {
             self.status = setInterval(function () {
                 self.msg("Stop App")
                 $.getJSON("/update", function (Data) {
-                    console.log(Data);
                     var Ask;
                     var Bid;
                     var id;
@@ -124,9 +123,8 @@ function DataGridViewModel() {
 
                         var pair_arr = [pair, true, Bid, true, Ask];
 
-                        pair == "EURUSD" ? id = 1 : 0;
-                        pair == "AUDCAD" ? id = 2 : 0;
-                        pair == "GBPUSD" ? id = 3 : 0;
+                        var row = self.getRowBySymbol(pair);
+                        id = row.gridID;
 
                         self.updateRowByID(id, pair_arr);
                     }

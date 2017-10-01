@@ -2,12 +2,20 @@ var rp = require('request-promise');
 
 var api  =  {
 
-    dataFX: {
-        "GBPUSD": [],
-        "EURUSD": []
-    },
+    dataFX: {},
 
-    getPairData: function (url, pair) {
+    getPairData: function (pair) {
+
+        var yearMonth = "2017-09-";
+        var day = api.randomIntFromInterval(10, 31);
+        var date = yearMonth + day.toString();
+
+        var base = pair.substring(0, 3);
+        var price = pair.substring(3, 6);
+
+        var url = "http://api.fixer.io/"+ date +"?symbols=" + base + "," + price;
+        console.log(url);
+
         var options = {
             uri: url,
             headers: {
@@ -23,21 +31,24 @@ var api  =  {
             })
             .catch(function (err) {
                 console.log("API call failed: " + err);
+                console.log("URL used to fetch data: " + url);
             });
 
     },
 
     getData: function () {
-        var urlG = "http://api.fixer.io/latest?symbols=USD,GBP";
-        api.getPairData(urlG, "GBPUSD");
+        api.getPairData("GBPUSD");
+        api.getPairData("EURUSD");
+        api.getPairData("AUDCAD");
+        api.getPairData("EURCAD");
+        api.getPairData("EURCHF");
+        api.getPairData("EURGBP");
+        api.getPairData("CADJPY");
+        api.getPairData("CADUSD");
+    },
 
-        var urlE = "http://api.fixer.io/latest?symbols=USD,EUR";
-        api.getPairData(urlE, "EURUSD");
-
-
-        var urlE = "http://api.fixer.io/latest?symbols=AUD, CAD";
-        api.getPairData(urlE, "AUDCAD");
-
+    randomIntFromInterval: function (min,max) {
+        return Math.floor(Math.random()*(max-min+1)+min);
     }
 
 };

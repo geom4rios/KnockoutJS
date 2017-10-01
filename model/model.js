@@ -14,7 +14,6 @@ module.exports = function(app){
             ["EURGBP", true, '24', true, '33'],
             ["CADJPY", true, '24', true, '33'],
             ["CADUSD", true, '24', true, '33']
-
         ];
 
         res.json(myDataRow);
