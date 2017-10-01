@@ -124,9 +124,9 @@ function DataGridViewModel() {
                         var pair_arr = [pair, true, Bid, true, Ask];
 
                         var row = self.getRowBySymbol(pair);
-                        id = row.gridID;
+                        row ? id = row.gridID : undefined ;
 
-                        self.updateRowByID(id, pair_arr);
+                        id ? self.updateRowByID(id, pair_arr) : undefined ;
                     }
                 });
             }, 1000);
