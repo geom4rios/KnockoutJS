@@ -32,18 +32,14 @@ tbody tr:nth-child(odd){background-color: #f2f2f2}
 
 /****************************************************/
 
-table, th, td {
-    border: 1px solid black;
-}
-
 thead {
-    border-radius: 5px;
-    background-color: lightblue;
+    background-color: #3B5998;
+    color: white;
 }
 
 table {
-    border-collapse: collapse;
-
+    border: 1px solid black;
+    border-collapse: separate;
 }
 
 th {
