@@ -2,23 +2,13 @@ function GridRow(id, dataRow) {
     var self = this;
 
     self.gridID = id;
-    dataRow.hasOwnProperty("RowID") ?  dataRow.RowID = id : undefined;
+    console.log(dataRow);
+
     self.dataRow = ko.observable(dataRow);
-}
 
-function appendTD(key) {
-    key = key.replace(/\s/g,'');
-    var tdEL = $("<td></td>").attr("data-bind", "text: dataRow()." + key);
-    $(tdEL).attr("id", key);
-    $(".table-rows").append(tdEL);
-}
-
-function hideTdByID(key) {
-    $("td#" + key).hide();
-}
-
-function showTdByID(key) {
-    $("td#" + key).show();
+    self.Spread = ko.computed(function () {
+        return self.dataRow().Ask - self.dataRow().Bid;
+    }, self);
 }
 
 function createColumn(id, colName){
@@ -49,7 +39,7 @@ function DataGridViewModel() {
     var count = 0;
     var colCount = 0;
 
-    var columnsArr = ["Symbol", "Bid LP", "Bid", "Ask LP", "Ask", "Spread", "Row ID"];
+    var columnsArr = ["Symbol", "Bid LP", "Bid", "Ask LP", "Ask", "Spread"];
 
     self.columns = ko.observableArray([]);
 
@@ -64,9 +54,9 @@ function DataGridViewModel() {
 
     //Editable data
     var myDataRow = [
-        ["EURUSD", '', '22', '', '31', '33'],
-        ["AUDCAD", '', '23', '', '32', '33'],
-        ["GBPUSD", '', '24', '', '33', '33']
+        ["EURUSD", true, '22', true, '31'],
+        ["AUDCAD", false, '23', true, '32'],
+        ["GBPUSD", true, '24', true, '33']
     ];
 
     self.dataGridRow = ko.observableArray([]);
@@ -97,38 +87,19 @@ function DataGridViewModel() {
         }) || null;
     };
 
-    /* update Column Visibility by Name */
-    self.toggleColumnVisibilityByName = function(Name) {
-        var col = self.getColumnByName(Name);
 
-        console.log(col.column().show);
-
-        self.columns().forEach(function (currentColumn) {
-            if (currentColumn.column().Name == col.column().Name) {
-                currentColumn.column().show = !currentColumn.column().show;
-            }
-        });
-    };
-
-
-    /* get column by name */
-    self.getColumnByName = function(Name) {
-        return ko.utils.arrayFirst(self.columns(), function(col) {
-            return col.column().Name === Name;
-        }) || null;
-    };
-
-    /*var randomData = [
-        ["EURUSD", '', '22', '', '31', '33'],
-        ["EURUSD", '', '43', '', '52', '63'],
-        ["EURUSD", '', '242', '', '333', '335']
+    var randomData = [
+        ["EURUSD", true, '22', true, '31'],
+        ["EURUSD", true, '43', false, '52'],
+        ["EURUSD", false, '242', true, '333']
     ];
 
     var j = 0;
     setInterval(function () {
         self.updateRowByID(1, randomData[j]);
         j++;
-    }, 2000);*/
+        j == randomData.length ? j = 0: j = j;
+    }, 2000);
 
     /* update Row by ID */
     self.updateRowByID = function(id, newRow) {

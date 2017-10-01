@@ -1,16 +1,29 @@
-function appendTD() {
-    //var tdEl = "<td data-bind="text: dataRow().Symbol" ></td>";
-    var td1 = "<td>Hello</td>";
-    $(".table-rows").append(td1);
+function appendTD(key) {
+    key = key.replace(/\s/g,'');
+    var LP = key.includes("LP");
+    var isSpread = key.includes("Spread");
+
+    if (LP) {
+        var tdEL = $("<td></td>");
+        $(tdEL).attr("id", key);
+        $(".table-rows").append(tdEL);
+        var iconEL = $("<i></i>").attr("class", "fa fa-university").attr("aria-hidden", "true").attr("data-bind", "visible: dataRow()." + key + " == true");
+        $("#"+key).append(iconEL);
+    } else if (isSpread) {
+        var tdEL = $("<td></td>").attr("data-bind", "text: " + key);
+        $(tdEL).attr("id", key);
+        $(".table-rows").append(tdEL);
+    } else {
+        var tdEL = $("<td></td>").attr("data-bind", "text: dataRow()." + key);
+        $(tdEL).attr("id", key);
+        $(".table-rows").append(tdEL);
+    }
 }
 
-/*
-<td data-bind="text: dataRow().Symbol" ></td>
-    <td><i class="fa fa-university" aria-hidden="true"></i>
-    </td>
-    <td data-bind="text: dataRow().Bid"></td>
-    <td><i class="fa fa-university" aria-hidden="true"></i>
-    </td>
-    <td data-bind="text: dataRow().Ask"></td>
-    <td data-bind="text: dataRow().Spread"></td>
-    */
+function hideTdByID(key) {
+    $("td#" + key).hide();
+}
+
+function showTdByID(key) {
+    $("td#" + key).show();
+}
