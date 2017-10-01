@@ -2,10 +2,7 @@ function GridRow(id, dataRow) {
     var self = this;
 
     self.gridID = id;
-    console.log(dataRow);
-
     self.dataRow = ko.observable(dataRow);
-
     self.Spread = ko.computed(function () {
         return self.dataRow().Ask - self.dataRow().Bid;
     }, self);
@@ -15,7 +12,7 @@ function createColumn(id, colName){
     var self = this;
 
     self.cID = id;
-    var colRow = {key: colName.replace(/\s/g,''),Name: colName.trim(), show: true};
+    var colRow = {key: colName.replace(/\s/g,''),Name: colName.trim()};
     self.column = ko.observable(colRow);
 }
 
@@ -50,7 +47,6 @@ function DataGridViewModel() {
     columnsArr.forEach(function(column){
         self.addColumn(++colCount, column);
     });
-
 
     //Editable data
     var myDataRow = [
@@ -116,6 +112,12 @@ function DataGridViewModel() {
             return row.gridID == self.removeID;
         });
     };
+
+    $.getJSON("/data", function(allData) {
+        var mappedTasks = $.map(allData, function(item) {
+            console.log(item);
+        });
+    });
 
 }
 
