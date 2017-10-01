@@ -39,7 +39,10 @@
                     <button data-bind="click: removeDataRow">Remove Row By ID</button>
                 </div>
 
-                <button id="startApp" onClick="startApp()">Start App</button>
+                <div class="user-row">
+                    <button class="startApp" data-bind="click: toggleApp, text: msg"></button>
+                </div>
+
             </div>
         </div>
     </div>

@@ -29,7 +29,6 @@ function createDataRow(colArr, rowData) {
     return modifiedDataRow;
 }
 
-
 function DataGridViewModel() {
     var self = this;
 
@@ -77,6 +76,7 @@ function DataGridViewModel() {
         }
     };
 
+
     /* Remove row by ID */
     self.removeID = 0;
     self.removeDataRow = function () {
@@ -91,36 +91,53 @@ function DataGridViewModel() {
        });
     });
 
-    setInterval(function () {
-        $.getJSON("/update", function(Data) {
-            console.log(Data);
-            var Ask;
-            var Bid;
-            var id;
 
-            for (pair in Data) {
-                var pairObj = Data[pair];
+    self.startStop = false;
+    self.status = null;
+    self.msg = ko.observable("Start App");
 
-                var res = pairObj[2];
+    self.toggleApp = function () {
+        self.startStop = !self.startStop;
 
-                var BidAsk = Object.keys(res).map(function(k) { return res[k] });
-                Bid = BidAsk[0];
-                Ask = BidAsk[1];
+        if(self.startStop) {
+            self.status = setInterval(function () {
+                self.msg("Stop App")
+                $.getJSON("/update", function (Data) {
+                    console.log(Data);
+                    var Ask;
+                    var Bid;
+                    var id;
 
-                BidAsk[0] ? Bid = BidAsk[0] : Bid = 1;
-                BidAsk[1] ? Ask = BidAsk[1] : Ask = 1;
+                    for (pair in Data) {
+                        var pairObj = Data[pair];
 
-                var pair_arr = [pair, true, Bid, true, Ask];
+                        var res = pairObj[2];
 
-                pair == "EURUSD" ? id=1 : 0;
-                pair == "AUDCAD" ? id=2 : 0;
-                pair == "GBPUSD" ? id=3 : 0;
+                        var BidAsk = Object.keys(res).map(function (k) {
+                            return res[k]
+                        });
+                        Bid = BidAsk[0];
+                        Ask = BidAsk[1];
 
-                self.updateRowByID(id, pair_arr);
-            }
-        });
-    }, 1000);
+                        BidAsk[0] ? Bid = BidAsk[0] : Bid = 1;
+                        BidAsk[1] ? Ask = BidAsk[1] : Ask = 1;
+
+                        var pair_arr = [pair, true, Bid, true, Ask];
+
+                        pair == "EURUSD" ? id = 1 : 0;
+                        pair == "AUDCAD" ? id = 2 : 0;
+                        pair == "GBPUSD" ? id = 3 : 0;
+
+                        self.updateRowByID(id, pair_arr);
+                    }
+                });
+            }, 1000);
+        } else {
+            clearInterval(self.status);
+            self.msg("Start App");
+        }
+    };
+
 }
-
 
 ko.applyBindings(new DataGridViewModel());

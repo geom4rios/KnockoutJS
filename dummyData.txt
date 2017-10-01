@@ -1,0 +1,17 @@
+var randomDataEURUSD = [
+        ["EURUSD", true, '22', true, '31'],
+        ["EURUSD", true, '43', false, '52'],
+        ["EURUSD", true, '242', false, '333']
+    ];
+
+    var randomDataAUDCAD = [
+        ["AUDCAD", true, '232', true, '331'],
+        ["AUDCAD", true, '433', false, '532'],
+        ["AUDCAD", false, '2432', true, '3333']
+    ];
+
+    var randomDataGBPUSD = [
+        ["GBPUSD", true, '212', true, '371'],
+        ["GBPUSD", true, '473', false, '572'],
+        ["GBPUSD", false, '2472', true, '3733']
+    ];

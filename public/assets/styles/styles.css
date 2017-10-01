@@ -31,6 +31,10 @@ tbody tr:nth-child(odd){background-color: #f2f2f2}
 
 
 /****************************************************/
+table, th, td {
+    border: 1px solid black;
+}
+
 
 thead {
     background-color: #3B5998;
@@ -38,12 +42,15 @@ thead {
 }
 
 table {
-    border: 1px solid black;
-    border-collapse: separate;
+    border-collapse: collapse;
 }
 
 th {
     padding: 1rem;
+}
+
+td, th {
+    min-width: 120px;
 }
 
 td {
@@ -58,4 +65,13 @@ td {
 .row {
     margin-left: -15px;
     margin-right: -15px;
+}
+
+/*************************************************/
+.setGreen {
+    color: green;
+}
+
+.setRed {
+    color: Red;
 }

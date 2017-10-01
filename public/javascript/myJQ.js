@@ -5,25 +5,18 @@ function appendTD(key) {
 
     if (LP) {
         var tdEL = $("<td></td>");
-        $(tdEL).attr("id", key);
+        $(tdEL).attr("class", key);
         $(".table-rows").append(tdEL);
         var iconEL = $("<i></i>").attr("class", "fa fa-university").attr("aria-hidden", "true").attr("data-bind", "visible: dataRow()." + key + " == true");
-        $("#"+key).append(iconEL);
+        $("."+key).append(iconEL);
     } else if (isSpread) {
         var tdEL = $("<td></td>").attr("data-bind", "text: " + key);
-        $(tdEL).attr("id", key);
+        $(tdEL).attr("class", key);
         $(".table-rows").append(tdEL);
     } else {
         var tdEL = $("<td></td>").attr("data-bind", "text: dataRow()." + key);
-        $(tdEL).attr("id", key);
+        $(tdEL).attr("class", key);
         $(".table-rows").append(tdEL);
     }
 }
 
-function hideTdByID(key) {
-    $("td#" + key).hide();
-}
-
-function showTdByID(key) {
-    $("td#" + key).show();
-}

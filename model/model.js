@@ -7,8 +7,14 @@ module.exports = function(app){
         //Editable data
         var myDataRow = [
             ["EURUSD", true, '22', true, '31'],
-            ["AUDCAD", false, '23', true, '32'],
-            ["GBPUSD", true, '24', true, '33']
+            ["AUDCAD", true, '23', true, '32'],
+            ["GBPUSD", true, '24', true, '33'],
+            ["EURCAD", true, '24', true, '33'],
+            ["EURCHF", true, '24', true, '33'],
+            ["EURGBP", true, '24', true, '33'],
+            ["CADJPY", true, '24', true, '33'],
+            ["CADUSD", true, '24', true, '33']
+
         ];
 
         res.json(myDataRow);
