@@ -4,7 +4,7 @@ function GridRow(id, dataRow) {
     self.gridID = id;
     self.dataRow = ko.observable(dataRow);
     self.Spread = ko.computed(function () {
-        return self.dataRow().Ask - self.dataRow().Bid;
+        return (Math.abs(self.dataRow().Ask - self.dataRow().Bid)).toFixed(4);
     }, self);
 }
 
@@ -12,7 +12,7 @@ function createColumn(id, colName){
     var self = this;
 
     self.cID = id;
-    var colRow = {key: colName.replace(/\s/g,''),Name: colName.trim()};
+    var colRow = {key: colName.replace(/\s/g,''),Name: colName.trim(), show: true};
     self.column = ko.observable(colRow);
 }
 
@@ -46,28 +46,14 @@ function DataGridViewModel() {
 
     columnsArr.forEach(function(column){
         self.addColumn(++colCount, column);
+        appendTD(column);
     });
-
-    //Editable data
-    var myDataRow = [
-        ["EURUSD", true, '22', true, '31'],
-        ["AUDCAD", false, '23', true, '32'],
-        ["GBPUSD", true, '24', true, '33']
-    ];
 
     self.dataGridRow = ko.observableArray([]);
 
     self.addDataRow = function(id, row) {
         self.dataGridRow.push(new GridRow(id, createDataRow(columnsArr, row) ) );
     };
-
-    myDataRow.forEach(function(row){
-        self.addDataRow(++count, row);
-    });
-
-    columnsArr.forEach(function(column){
-        appendTD(column);
-    });
 
 
     /* This requires that the column name is Symbol */
@@ -82,20 +68,6 @@ function DataGridViewModel() {
             return row.gridID === id;
         }) || null;
     };
-
-
-    var randomData = [
-        ["EURUSD", true, '22', true, '31'],
-        ["EURUSD", true, '43', false, '52'],
-        ["EURUSD", false, '242', true, '333']
-    ];
-
-    var j = 0;
-    setInterval(function () {
-        self.updateRowByID(1, randomData[j]);
-        j++;
-        j == randomData.length ? j = 0: j = j;
-    }, 2000);
 
     /* update Row by ID */
     self.updateRowByID = function(id, newRow) {
@@ -113,12 +85,41 @@ function DataGridViewModel() {
         });
     };
 
-    $.getJSON("/data", function(allData) {
-        var mappedTasks = $.map(allData, function(item) {
-            console.log(item);
-        });
+    $.getJSON("/init", function(allData) {
+       allData.forEach(function(row){
+           self.addDataRow(++count, row);
+       });
     });
 
+    setInterval(function () {
+        $.getJSON("/update", function(Data) {
+            console.log(Data);
+            var Ask;
+            var Bid;
+            var id;
+
+            for (pair in Data) {
+                var pairObj = Data[pair];
+
+                var res = pairObj[2];
+
+                var BidAsk = Object.keys(res).map(function(k) { return res[k] });
+                Bid = BidAsk[0];
+                Ask = BidAsk[1];
+
+                BidAsk[0] ? Bid = BidAsk[0] : Bid = 1;
+                BidAsk[1] ? Ask = BidAsk[1] : Ask = 1;
+
+                var pair_arr = [pair, true, Bid, true, Ask];
+
+                pair == "EURUSD" ? id=1 : 0;
+                pair == "AUDCAD" ? id=2 : 0;
+                pair == "GBPUSD" ? id=3 : 0;
+
+                self.updateRowByID(id, pair_arr);
+            }
+        });
+    }, 1000);
 }
 
 
